@@ -11,7 +11,7 @@ typedef struct
 {
     double x;
     double y;
-    double angle;
+    double angle;   //En grados
 
 }robot_t;
 
@@ -19,7 +19,7 @@ typedef struct
 {
     int h;
     int w;
-    char *baldosas;
+    char *baldosas; //Baldosa en 1 --> Esta limpia
 
 }piso_t;
 
@@ -27,7 +27,10 @@ typedef struct
 
 /*Se encarga del movimiento de los robots, cambiar la direccion de ellos en caso 
 de colision, y limpia las baldosas */
-int fisicas(piso_t *piso, robot_t *r);
+void fisicas(piso_t *piso, robot_t *r);
 
 //Convierte un angulo en grados a radianes.
 double dtoRad (double angle);
+
+//Devuelve 1 si el robot puede avanzar, o 0 si no puede.
+int puedeAvanzar (int x, int y, int alto, int ancho);
