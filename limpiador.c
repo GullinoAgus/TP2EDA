@@ -7,8 +7,8 @@ void fisicas (piso_t *piso, robot_t *r)
     int res;
 
     //A que (x, y) avanzaria el robot:
-    xf = r->x + sin( dtoRad(r->angle) );  
-    yf = r->y + cos( dtoRad(r->angle) );
+    xf = r->x + sin( DEG2RAD(r->angle) );
+    yf = r->y + cos( DEG2RAD(r->angle) );
     res = puedeAvanzar(xf, yf, piso->h, piso->w);
 
     if (res == 1) //Pudede avanzar
@@ -41,10 +41,4 @@ int puedeAvanzar (double x, double y, int alto, int ancho)
         res = 0;    //Robot no puede avanzar
     }
     return res;
-}
-
-double dtoRad (double angle)
-{
-    double rad = (PI/180) * angle;
-    return rad;
 }

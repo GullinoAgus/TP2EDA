@@ -11,6 +11,7 @@ static void graficarCuadricula(int posx, int posy, int width, int height, int ce
 
 static void graficarRobots(int cuadOriginX, int cuadOriginY,int scaleConst, robot_t *robotList);
 
+static void draw_vector(double origx, double origy, double modulo, double angulo, ALLEGRO_COLOR color, double grosor);
 
 void graficarPiso(ALLEGRO_DISPLAY *display, int posx, int posy, piso_t *piso, robot_t *listaRobots){
 
@@ -59,13 +60,35 @@ static void graficarCuadricula(int posx, int posy, int width, int height, int ce
 
 static void graficarRobots(int cuadOriginX, int cuadOriginY,const int scaleConst, robot_t *robotList){
 
+    double posXaux, posYaux;
+
     //ALLEGRO_BITMAP *bitmap = al_load_bitmap("./arrow.png");
 
     for (int i = 0; robotList[i].x != -1 ; ++i) {
 
-        al_draw_filled_circle(cuadOriginX - robotList[i].x*scaleConst, cuadOriginY - robotList[i].y*scaleConst, scaleConst/10, al_map_rgb(255,0,0));
+        posXaux = cuadOriginX - robotList[i].x*scaleConst;
+        posYaux = cuadOriginY - robotList[i].y*scaleConst;
+
+        draw_vector(posXaux, posYaux, 1, robotList[i].angle, al_map_rgb(0,0,255), scaleConst);
+
+        al_draw_filled_circle( posXaux, posYaux, scaleConst/10, al_map_rgb(255,0,0));
 
 
     }
+
+}
+
+static void draw_vector(double origx, double origy, double modulo, double angulo, ALLEGRO_COLOR color, double escala){
+
+
+    double cosAngl = cos(DEG2RAD(angulo))*escala;
+    double senAngl = sin(DEG2RAD(angulo))*escala;
+    double cosAnglM30 = cos(DEG2RAD(angulo + 180 - 30))*escala;
+    double senAnglM30 = sin(DEG2RAD(angulo + 180 - 30))*escala;
+    double cosAnglP30 = cos(DEG2RAD(angulo + 180 + 30))*escala;
+    double senAnglP30 = sin(DEG2RAD(angulo + 180 + 30))*escala;
+
+    al_draw_line(origx, origx, origx + cosAngl, origy + senAngl, color, escala/25.0);
+    al_draw_filled_triangle(origx + cosAngl*modulo, origy + senAngl*modulo, origx + cosAngl*modulo - cosAnglM30/5, origy + senAngl*modulo - senAnglM30/5, origx + cosAngl*modulo - cosAnglP30/5, origy + senAngl*modulo - senAnglP30/5, color);
 
 }

@@ -7,8 +7,8 @@
 #include <time.h>
 #include <math.h>
 
-//Constantes
-#define PI 3.14159265359
+//Macros
+#define DEG2RAD(x) ((x)*M_PI/180)
 
 //Estructuras
 typedef struct 
