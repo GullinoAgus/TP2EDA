@@ -8,15 +8,16 @@ ALLEGRO_DISPLAY* initAllegro5();
 
 int main (void){
     srand(time(NULL));
-    
-    piso_t piso;
-    robot_t robot;
+
+    char baldosasList[5][5] = {0};
+    piso_t piso = {.h = 5, .w = 5, .baldosas = baldosasList};
+    robot_t robot[3] = {{3.5, 4, 260},{2.8, 1.4, 260},{-1, -1, -1}};
 
     ALLEGRO_DISPLAY *display = initAllegro5();
     ALLEGRO_EVENT evento;
     ALLEGRO_EVENT_QUEUE *colaEventos = al_create_event_queue();
 
-    graficarPiso(display, 50, 50, &piso,&robot);
+    graficarPiso(display, 50, 50, &piso,robot);
 
     al_register_event_source(colaEventos, al_get_display_event_source(display));
     al_wait_for_event(colaEventos, &evento);
