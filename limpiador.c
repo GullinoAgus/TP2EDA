@@ -1,12 +1,5 @@
 #include "limpiador.h"
 
-int main (void)
-{
-    srand(time(NULL));
-
-    return 0;
-}
-
 void fisicas (piso_t *piso, robot_t *r)
 {
     char *aux = piso->baldosas;

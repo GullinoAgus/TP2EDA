@@ -1,3 +1,7 @@
+
+#ifndef LIMPIADOR_H
+#define LIMPIADOR_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -13,7 +17,7 @@ typedef struct
     double y;
     double angle;   //En grados
 
-}robot_t;
+} robot_t;
 
 typedef struct 
 {
@@ -21,7 +25,7 @@ typedef struct
     int w;
     char *baldosas; //Baldosa en 1 --> Esta limpia
 
-}piso_t;
+} piso_t;
 
 //Prototipos
 
@@ -33,4 +37,6 @@ void fisicas(piso_t *piso, robot_t *r);
 double dtoRad (double angle);
 
 //Devuelve 1 si el robot puede avanzar, o 0 si no puede.
-int puedeAvanzar (int x, int y, int alto, int ancho);
+int puedeAvanzar(double x, double y, int alto, int ancho);
+
+#endif

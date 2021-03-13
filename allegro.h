@@ -1,0 +1,1 @@
+#ifndef ALLEGRO_H
