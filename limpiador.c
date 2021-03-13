@@ -6,24 +6,27 @@ void fisicas (piso_t *piso, robot_t *r)
     double xf, yf;
     int res;
 
-    //A que (x, y) avanzaria el robot:
-    xf = r->x + sin( DEG2RAD(r->angle) );
-    yf = r->y + cos( DEG2RAD(r->angle) );
-    res = puedeAvanzar(xf, yf, piso->h, piso->w);
-
-    if (res == 1) //Pudede avanzar
+    while( (r->x) != (-1.0) )
     {
-        r->x = xf;
-        r->y = yf;
-        //Ahora debe limpiar la baldosa
-        aux[ ((int)xf) * ((piso->w) -1) + ((int)yf) ] = 1;  //Limpia baldosa
+        //A que (x, y) avanzaria el robot:
+        xf = r->x + sin( DEG2RAD(r->angle) );
+        yf = r->y + cos( DEG2RAD(r->angle) );
+        res = puedeAvanzar(xf, yf, piso->h, piso->w);
 
-    }
-    else    //Debe cambiar su orientacion
-    {
-        r->angle = (rand() % 3600) / 10; //Angulo entre 0 y 359.9
-    }
+        if (res == 1) //Pudede avanzar
+        {
+            r->x = xf;
+            r->y = yf;
+            //Ahora debe limpiar la baldosa
+            aux[ ((int)xf) * (piso->w) + ((int)yf) ] = 1;  //Limpia baldosa
 
+        }
+        else    //Debe cambiar su orientacion
+        {
+            r->angle = (rand() % 3600) / 10; //Angulo entre 0 y 359.9
+        }
+        ++r;
+    }
 }
 
 int puedeAvanzar (double x, double y, int alto, int ancho)    
