@@ -59,7 +59,7 @@ int recieve_data (piso_t * floor, int * n_robots)
 void init_floor (piso_t * floor)
 {
 	int n_baldosas = floor->h * floor->w;
-	floor->baldosas = (baldosas_t*) calloc (n_baldosas, sizeof(char)); 
+	floor->baldosas = (baldosa_t*) calloc (n_baldosas, sizeof(char)); 
 } 	
 
 /*******************************************************************************
