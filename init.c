@@ -1,18 +1,21 @@
 #include "init.h"
 
-//evitar
+/*evitar
 int main (void)
 {
 
 	piso_t floor;
-	piso_t floor_pointer=floor;
+	piso_t * floor_pointer = &floor;
 	int n_robots;
-	robot_ t * robot_list;
 	int mode = recieve_data (floor_pointer, &(n_robots));
-	printf ("%d \n", mode);
+	init_floor (floor_pointer);
+	robot_t * robot_list = init_robot (n_robots, floor_pointer);
+	printf ("EL MODO: %d \n", mode);
+	printf("ALTURA Y ANCHO: %d , %d \n", floor.h, floor.w);
+	printf("PRUEBA BALDOSA: %d \n", (int)floor.baldosas[0]);
+	printf("PRUEBA ROBOT, x y y angle: %f, %f, %f \n", robot_list[0].x, robot_list[0].y, robot_list[0].angle);
 
-}
-
+}*/
 /*******************************************************************************
 *	Esta funcion se encarga de recibir parametros por linea de comandos		   *
 *	en tiempo de ejecucion. 												   *
@@ -53,34 +56,31 @@ int recieve_data (piso_t * floor, int * n_robots)
 *	Las inicializa en 0, lo que indica que estan sucias.					   *
 *******************************************************************************/
 
-void init_floor (piso_t floor)
+void init_floor (piso_t * floor)
 {
-	int n_baldosas = floor.h * floor.w;
-	floor.baldosas = (baldosas_t*) calloc (n_baldosas, sizeof(char)); 
+	int n_baldosas = floor->h * floor->w;
+	floor->baldosas = (baldosas_t*) calloc (n_baldosas, sizeof(char)); 
 } 	
 
 /*******************************************************************************
 *	Esta funcion se encarga de reservar un lugar en el heap para los robots.   *
 *	Crea la lista e inicializa las coordenadas de los robots en el medio 	   *
 *	de la pantalla. 														   *
+*	Devuelve un puntero al arreglo que contiene a los robots				   *
 *******************************************************************************/
 
-void init_robot (robot_ t * robot_list, int n_robots, piso_t floor)    //en modo 1 manda la variable y en modo 2 seria ir aumentando en 1
+robot_t * init_robot (int n_robots, piso_t * floor)    //en modo 1 manda la variable y en modo 2 seria ir aumentando en 1
 { 
-	robot_list = (robot_t*) calloc (n_robots, sizeof(robot_t));
+	robot_t* robot_list = (robot_t*) calloc (n_robots, sizeof(robot_t));
 	int contador;
 	for (contador=0; contador<n_robots; contador++)
 	{
-		robot_list[contador].x= (double) floor.w/2;  //esto esta mal (ver como definir lo de las coordenadas)
-		robot_list[contador].y=	(double) floor.h/2;  //no se si el double es al pedo o que 
+		robot_list[contador].x= (double) floor->w/2;  //esto esta mal (ver como definir lo de las coordenadas)
+		robot_list[contador].y=	(double) floor->h/2;  //no se si el double es al pedo o que 
 		robot_list[contador].angle= (double) (rand()%3599)/10;   //grados
 	}
-	return; 
+	return robot_list; 
 } 
-
-
-
-
 
 
 
