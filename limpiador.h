@@ -36,7 +36,4 @@ typedef struct
 de colision, y limpia las baldosas */
 void fisicas(piso_t *piso, robot_t *r);
 
-//Devuelve 1 si el robot puede avanzar, o 0 si no puede.
-int puedeAvanzar(double x, double y, int alto, int ancho);
-
 #endif

@@ -1,5 +1,8 @@
 #include "limpiador.h"
 
+//Devuelve 1 si el robot puede avanzar, o 0 si no puede.
+static int puedeAvanzar(double x, double y, int alto, int ancho);
+
 void fisicas (piso_t *piso, robot_t *r)
 {
     baldosa_t *aux = piso->baldosas;
@@ -29,7 +32,7 @@ void fisicas (piso_t *piso, robot_t *r)
     }
 }
 
-int puedeAvanzar (double x, double y, int alto, int ancho)    
+static int puedeAvanzar (double x, double y, int alto, int ancho)    
 {
     int res = 1;    
     //Primero analiza la coordenada x
