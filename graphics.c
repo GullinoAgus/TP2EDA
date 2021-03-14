@@ -1,6 +1,7 @@
 
 #include "graphics.h"
-
+#include <stdbool.h>
+#include <mgl2/mgl.h>
 
 static void graficarEjes(int posx, int posy);
 
@@ -56,6 +57,10 @@ void graficarFuncion(int posx, int posy, punto_t *listaPuntos, double escala){
     else {
         maxScaleValue = maxYvalue;
     }
+    HMGL gr;
+    HCDT data = mgl_create_data();
+    HMDT
+    mgl_fplot(gr,"sin(x)", )
 
 }
 
