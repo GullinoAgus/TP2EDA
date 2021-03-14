@@ -12,9 +12,8 @@
 *	en tiempo de ejecucion. 												   *
 *	Guarda el numero de robots, el largo y ancho del tablero y devuelve 	   *
 *	el modo del juego. 														   *
-*	En caso de tener un error devuelve un -1.								   *
 *******************************************************************************/
-int recieve_data (piso_t floor, int * n_robots);
+int recieve_data (piso_t * floor, int * n_robots);
 
 /*******************************************************************************
 *	Esta funcion se encarga de reservar un lugar en el heap para las baldosas. *
