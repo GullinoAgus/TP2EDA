@@ -12,15 +12,23 @@ int main (void){
     srand(time(NULL));
     int exit = 0;
 
-    baldosa_t baldosasList[5][5] = {0};
+    //baldosa_t baldosasList[5][5] = {0};
     //baldosasList[1][3] = 1;
-    piso_t piso = {.h = 5, .w = 5, .baldosas = baldosasList};
-    robot_t robot[3] = {{3.5, 4, 125},{2.8, 1.4, 260},{-1, -1, -1}};
+    piso_t piso;
+    int cantRobots;
+    robot_t *robots;
+
+
 
     ALLEGRO_DISPLAY *display = initAllegro5();
     ALLEGRO_TIMER *timer = al_create_timer(1/FPS);
     ALLEGRO_EVENT evento;
     ALLEGRO_EVENT_QUEUE *colaEventos = al_create_event_queue();
+
+
+    int modo = recieve_data(&piso, &cantRobots);
+    init_floor(&piso);
+    robots = init_robot(cantRobots, &piso);
 
     al_register_event_source(colaEventos, al_get_display_event_source(display));
     al_register_event_source(colaEventos, al_get_timer_event_source(timer));
@@ -29,8 +37,8 @@ int main (void){
         al_wait_for_event(colaEventos, &evento);
         switch (evento.type) {
             case ALLEGRO_EVENT_TIMER:
-                fisicas(&piso, robot);
-                graficarPiso(display, 50, 50, &piso,robot, 100);
+                fisicas(&piso, robots);
+                graficarPiso(display, 50, 50, &piso,robots, 100);
                 break;
             case ALLEGRO_EVENT_DISPLAY_CLOSE:
                 exit = 1;

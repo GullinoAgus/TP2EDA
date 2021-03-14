@@ -102,11 +102,13 @@
     <ClCompile Include="init.c" />
     <ClCompile Include="limpiador.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="parser.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="graphics.h" />
     <ClInclude Include="init.h" />
     <ClInclude Include="limpiador.h" />
+    <ClInclude Include="parser.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -59,7 +59,7 @@ int recieve_data (piso_t * floor, int * n_robots)
 void init_floor (piso_t * floor)
 {
 	int n_baldosas = floor->h * floor->w;
-	floor->baldosas = (baldosa_t*) calloc (n_baldosas, sizeof(char)); 
+	floor->baldosas = (baldosa_t*) calloc (n_baldosas, sizeof(baldosa_t)); 
 } 	
 
 /*******************************************************************************
@@ -71,14 +71,15 @@ void init_floor (piso_t * floor)
 
 robot_t * init_robot (int n_robots, piso_t * floor)    //en modo 1 manda la variable y en modo 2 seria ir aumentando en 1
 { 
-	robot_t* robot_list = (robot_t*) calloc (n_robots, sizeof(robot_t));
+	robot_t* robot_list = (robot_t*) calloc (n_robots + 1, sizeof(robot_t));
 	int contador;
 	for (contador=0; contador<n_robots; contador++)
 	{
-		robot_list[contador].x= (double) floor->w/2;  //esto esta mal (ver como definir lo de las coordenadas)
-		robot_list[contador].y=	(double) floor->h/2;  //no se si el double es al pedo o que 
-		robot_list[contador].angle= (double) (rand()%3599)/10;   //grados
+		robot_list[contador].x = (double) (rand()%(floor->w*1000))/1000.0;			//esto esta mal (ver como definir lo de las coordenadas)
+		robot_list[contador].y =	(double)(rand() % (floor->h * 1000)) / 1000.0;  //no se si el double es al pedo o que 
+		robot_list[contador].angle = (double) (rand()%3600)/10.0;					//grados
 	}
+	robot_list[n_robots].x = -1;
 	return robot_list; 
 } 
 
