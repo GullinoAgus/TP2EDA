@@ -5,9 +5,10 @@ int main (void)
 {
 
 	piso_t floor;
+	piso_t floor_pointer=floor;
 	int n_robots;
 	robot_ t * robot_list;
-	int mode = recieve_data (floor, &(n_robots));
+	int mode = recieve_data (floor_pointer, &(n_robots));
 	printf ("%d \n", mode);
 
 }
@@ -17,22 +18,32 @@ int main (void)
 *	en tiempo de ejecucion. 												   *
 *	Guarda el numero de robots, el largo y ancho del tablero y devuelve 	   *
 *	el modo del juego. 														   *
-*	En caso de tener un error devuelve un -1.								   *
 *******************************************************************************/
-int recieve_data (piso_t floor, int * n_robots)
+int recieve_data (piso_t * floor, int * n_robots)
 {
 	int mode;
-	printf("Ingrese el numero de filas: \n");
-	scanf("%d", &(floor.h));
-	printf("Ingrese el numero de columnas: \n");
-	scanf("%d", &(floor.w));
-	printf("Ingrese el numero de robots: \n");
-	scanf("%d", n_robots);
-	printf("Ingrese el modo de la simulacion: \n");
-	scanf("%d", &(mode));	
-	if((floor.h<1)||(floor.h>100)||(floor.w<1)||(floor.w>70)||((mode!=1)&&(mode!=2))) //se controla que no se ingrese un numero invalido
+	printf("Ingrese el numero de filas: ");
+	scanf("%d", &(floor->h));
+	while ((floor->h<1)||(floor->h>100))
 	{
-		mode=-1;
+		printf("Este numero no esta permitido.\nIngrese el numero de filas: ");
+		scanf("%d", &(floor->h));
+	}	
+	printf("Ingrese el numero de columnas: ");
+	scanf("%d", &(floor->w));
+	while ((floor->w<1)||(floor->w>70))
+	{
+		printf("Este numero no esta permitido.\nIngrese el numero de columnas: ");
+		scanf("%d", &(floor->w));
+	}
+	printf("Ingrese el numero de robots: ");
+	scanf("%d", n_robots);
+	printf("Ingrese el modo de la simulacion: ");
+	scanf("%d", &(mode));	
+	while((mode!=1)&&(mode!=2))
+	{
+		printf("Este numero no esta permitido.\nIngrese el modo de la simulacion: ");
+		scanf("%d", &(mode));
 	}
 	return mode;
 }
