@@ -2,15 +2,15 @@
 
 void fisicas (piso_t *piso, robot_t *r)
 {
-    char *aux = piso->baldosas;
+    baldosa_t *aux = piso->baldosas;
     double xf, yf;
     int res;
 
     while( (r->x) != (-1.0) )
     {
         //A que (x, y) avanzaria el robot:
-        xf = r->x + sin( DEG2RAD(r->angle) );
-        yf = r->y + cos( DEG2RAD(r->angle) );
+        xf = r->x + cos( DEG2RAD(r->angle) );
+        yf = r->y + sin( DEG2RAD(r->angle) );
         res = puedeAvanzar(xf, yf, piso->h, piso->w);
 
         if (res == 1) //Pudede avanzar
@@ -18,7 +18,7 @@ void fisicas (piso_t *piso, robot_t *r)
             r->x = xf;
             r->y = yf;
             //Ahora debe limpiar la baldosa
-            aux[ ((int)xf) * (piso->w) + ((int)yf) ] = 1;  //Limpia baldosa
+            aux[ ((int)yf) * (piso->w) + ((int)xf) ] = 1;  //Limpia baldosa
 
         }
         else    //Debe cambiar su orientacion

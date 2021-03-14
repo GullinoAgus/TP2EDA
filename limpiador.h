@@ -11,6 +11,8 @@
 #define PI 3.14159265359
 #define DEG2RAD(x) ((x) * (PI)/(180))
 
+typedef char baldosa_t;
+
 //Estructuras
 typedef struct 
 {
@@ -24,7 +26,7 @@ typedef struct
 {
     int h;
     int w;
-    char *baldosas; //Baldosa en 1 --> Esta limpia
+    baldosa_t *baldosas; //Baldosa en 1 --> Esta limpia
 
 } piso_t;
 
