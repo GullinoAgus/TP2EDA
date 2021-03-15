@@ -79,7 +79,7 @@
     <Link>
       <TargetMachine>MachineX86</TargetMachine>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -103,12 +103,17 @@
     <ClCompile Include="limpiador.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="parser.c" />
+    <ClCompile Include="SenCosTable.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="graphics.h" />
+    <ClInclude Include="SenCosTable.h" />
     <ClInclude Include="init.h" />
     <ClInclude Include="limpiador.h" />
     <ClInclude Include="parser.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="monofonto.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

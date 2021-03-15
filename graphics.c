@@ -2,9 +2,9 @@
 #include "graphics.h"
 #include <stdbool.h>
 
-static void graficarEjes(int posx, int posy);
+#define DIVISIONESDEGRAFICO 10
 
-static void graficarPuntos(int posx, int posy);
+static void graficarPuntos(int posOrigX, int posOrigy, punto_t* listaPuntos, double avancePorUnidad, double avancePorUnidadY, double escala);
 
 static void graficarCuadricula(int posx, int posy, int width, int height, int cellWidth, int cellHeight);
 
@@ -26,19 +26,19 @@ void graficarPiso(ALLEGRO_DISPLAY *display, int posx, int posy, piso_t *piso, ro
         for (int j = 0; j < piso->w; ++j) {
             if (piso->baldosas[i * piso->w + j]){
 
-                al_draw_filled_rectangle(posx +  j*escala, posy + (piso->w-1)*escala - i*escala, posx + escala +  j*escala, posy + escala + (piso->w-1)*escala - i*escala, al_map_rgb(100,150,255));
+                al_draw_filled_rectangle(posx +  j*escala, posy + (piso->h-1)*escala - i*escala, posx + escala +  j*escala, posy + escala + (piso->h-1)*escala - i*escala, al_map_rgb(100,150,255));
 
             }
             else{
 
-                al_draw_filled_rectangle(posx +  j*escala, posy + (piso->w-1)*escala - i*escala, posx + escala + j*escala, posy + escala + (piso->w-1)*escala - i*escala, al_map_rgb(150,150,150));
+                al_draw_filled_rectangle(posx +  j*escala, posy + (piso->h-1)*escala - i*escala, posx + escala + j*escala, posy + escala + (piso->h-1)*escala - i*escala, al_map_rgb(150,150,150));
 
             }
         }
 
     }
     graficarCuadricula(posx, posy, piso->w, piso->h, escala, escala);
-    graficarRobots(posx, posy + piso->w*escala, escala, listaRobots);
+    graficarRobots(posx, posy + piso->h*escala, escala, listaRobots);
 
     al_flip_display();
 
@@ -46,33 +46,55 @@ void graficarPiso(ALLEGRO_DISPLAY *display, int posx, int posy, piso_t *piso, ro
 
 void graficarFuncion(int posx, int posy, punto_t *listaPuntos, double escala){
 
+    ALLEGRO_TRANSFORM t;
+    ALLEGRO_FONT* font = al_load_ttf_font(FONTDIRECTORY, escala / 4, NULL);
     double maxXvalue = getMaxX(listaPuntos);
     double maxYvalue = getMaxY(listaPuntos);
-    double maxScaleValue;
 
-    if(maxXvalue > maxYvalue){
-        maxScaleValue = maxXvalue;
+    posx += 1.05 * escala;
+    posy += escala;
+
+    al_clear_to_color(al_map_rgb(255, 255, 255));
+    al_draw_line(posx, posy - escala, posx, posy + escala* (DIVISIONESDEGRAFICO + 1), al_map_rgb(0, 0, 0), escala / 40);          //Eje Y
+    al_draw_line(posx - escala, posy + escala*DIVISIONESDEGRAFICO, posx + escala*(DIVISIONESDEGRAFICO+1), posy + escala*DIVISIONESDEGRAFICO, al_map_rgb(0, 0, 0), escala / 40);   //EJE x
+    graficarCuadricula(posx, posy, DIVISIONESDEGRAFICO, DIVISIONESDEGRAFICO, escala, escala);
+    
+    al_draw_text(font, al_map_rgb(0, 0, 0), (double)posx - escala * 0.1, (double)posy + escala * ((double)DIVISIONESDEGRAFICO + 0.1), ALLEGRO_ALIGN_RIGHT, "0");
+
+
+    for (int i = 1; i <= DIVISIONESDEGRAFICO; i++)
+    {
+        al_draw_textf(font, al_map_rgb(0, 0, 0), posx, posy + (DIVISIONESDEGRAFICO - i) * escala - al_get_font_line_height(font) / 2, ALLEGRO_ALIGN_RIGHT, "%.2E", (maxYvalue / (double)DIVISIONESDEGRAFICO) * i);
     }
-    else {
-        maxScaleValue = maxYvalue;
+    al_identity_transform(&t);
+    al_rotate_transform(&t, PI / 2.0f);
+    al_translate_transform(&t, posx + escala * DIVISIONESDEGRAFICO + al_get_font_line_height(font) / 2, posy + escala * DIVISIONESDEGRAFICO);
+    al_use_transform(&t);
+    for (int i = 1; i <= DIVISIONESDEGRAFICO; i++)
+    {
+        al_draw_textf(font, al_map_rgb(0, 0, 0), 0, (DIVISIONESDEGRAFICO - i) * escala, ALLEGRO_ALIGN_LEFT, "%.2E", (maxXvalue/(double)DIVISIONESDEGRAFICO)*i);
     }
+    al_identity_transform(&t);
+    al_use_transform(&t);
+    
+    
+    graficarPuntos(posx, posy + escala * DIVISIONESDEGRAFICO, listaPuntos, maxXvalue /((double) DIVISIONESDEGRAFICO), maxYvalue / ((double)DIVISIONESDEGRAFICO), escala);
 
-}
+    al_flip_display();
 
-static void graficarEjes(int posx, int posy)
-{
+    al_destroy_font(font);
+ }
 
-    punto_t origen;
+static void graficarPuntos(int posOrigX, int posOrigY, punto_t *listaPuntos, double avancePorUnidadX, double avancePorUnidadY, double escala){
 
-    al_draw_line(posx, posy, posx, posy+500, al_map_rgb(0,0,0), 1);
-    al_draw_line(posx, posy+500, posx+500, posy+500, al_map_rgb(0,0,0), 1);
+    punto_t* auxPunto;
 
-
-}
-
-static void graficarPuntos(int posx, int posy){
-
-
+    do
+    {
+        al_draw_filled_circle(posOrigX + (listaPuntos->x * escala)/avancePorUnidadX, posOrigY - (listaPuntos->y * escala) / avancePorUnidadY, escala/10, al_map_rgb(255,0,0));
+        auxPunto = listaPuntos->next;
+        listaPuntos = auxPunto;
+    } while (listaPuntos != NULL);
 
 }
 
@@ -91,11 +113,15 @@ static void graficarCuadricula(int posx, int posy, int width, int height, int ce
 
 }
 
-static void graficarRobots(int cuadOriginX, int cuadOriginY,const int scaleConst, robot_t *robotList){
+static void graficarRobots(int cuadOriginX, int cuadOriginY, const int scaleConst, robot_t *robotList){
 
     double posXaux, posYaux;
 
-    //ALLEGRO_BITMAP *bitmap = al_load_bitmap("./arrow.png");
+    int escalaGraficaAux = scaleConst;
+    if (scaleConst < 20)
+    {
+        escalaGraficaAux = 20;
+    }
 
     for (int i = 0; robotList[i].x != -1 ; ++i) {
 
@@ -104,7 +130,7 @@ static void graficarRobots(int cuadOriginX, int cuadOriginY,const int scaleConst
 
         draw_vector(posXaux, posYaux, 1, robotList[i].angle, al_map_rgb(0,0,255), scaleConst);
 
-        al_draw_filled_circle( posXaux, posYaux, scaleConst/10, al_map_rgb(255,0,0));
+        al_draw_filled_circle( posXaux, posYaux, escalaGraficaAux/10, al_map_rgb(255,0,0));
 
 
     }

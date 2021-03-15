@@ -34,6 +34,6 @@ typedef struct
 
 /*Se encarga del movimiento de los robots, cambiar la direccion de ellos en caso 
 de colision, y limpia las baldosas */
-void fisicas(piso_t *piso, robot_t *r);
+int fisicas(piso_t *piso, robot_t *r);
 
 #endif

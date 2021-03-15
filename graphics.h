@@ -11,6 +11,7 @@
 
 #define WINDOWWIDHT 1280
 #define WINDOWHEIGHT 720
+#define FONTDIRECTORY ".//monofonto.ttf"
 
 typedef struct punto {
 
