@@ -1,3 +1,12 @@
-﻿  main.c
-C:\Users\agust\source\repos\GullinoAgus\TP2EDA\main.c(23,12): warning C4101: 'difTiempo': unreferenced local variable
+﻿  init.c
+C:\Users\agust\source\repos\GullinoAgus\TP2EDA\init.c(29,2): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\agust\source\repos\GullinoAgus\TP2EDA\init.c(33,3): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\agust\source\repos\GullinoAgus\TP2EDA\init.c(36,2): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\agust\source\repos\GullinoAgus\TP2EDA\init.c(40,3): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\agust\source\repos\GullinoAgus\TP2EDA\init.c(43,2): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\agust\source\repos\GullinoAgus\TP2EDA\init.c(45,2): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\agust\source\repos\GullinoAgus\TP2EDA\init.c(49,3): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  main.c
+C:\Users\agust\source\repos\GullinoAgus\TP2EDA\main.c(27,12): warning C4101: 'difTiempo': unreferenced local variable
+  Generating Code...
   TP2EDA.vcxproj -> C:\Users\agust\source\repos\GullinoAgus\TP2EDA\Debug\TP2EDA.exe

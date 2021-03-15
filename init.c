@@ -76,7 +76,7 @@ robot_t * init_robot (int n_robots, piso_t * floor)    //en modo 1 manda la vari
 	for (contador=0; contador<n_robots; contador++)
 	{
 		robot_list[contador].x = (double) (rand()%(floor->w * 10))/10.0;			//esto esta mal (ver como definir lo de las coordenadas)
-		robot_list[contador].y =	(double)(rand() % (floor->h * 10)) / 10.0;  //no se si el double es al pedo o que 
+		robot_list[contador].y =	(double) (rand() % (floor->h * 10)) / 10.0;  //no se si el double es al pedo o que 
 		robot_list[contador].angle = (double) (rand()%3600)/10.0;					//grados
 	}
 	robot_list[n_robots].x = -1;
