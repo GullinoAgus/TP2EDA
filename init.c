@@ -3,7 +3,7 @@
 
 /*main(int argc, char*argv[]):
 * pCallback_t p = &recieve_data
-* data_t data;
+* data_t data = {.largo=0, .ancho=0, .modo=0 , .robots=0};
 * data_t * userData = &data;
 * 
 * int var = parseCmdLine(argc, argv, p, userData) --> si esto da bien:
@@ -35,13 +35,13 @@ int recieve_data(char* key, char* value, void* userData) //callback
 	else //es opcion
 	{
 		number = set_number(value);
-		if (number == -1)  //si se ingreso un caracter invalido en el valor
+		if ((number == -1)||(number==0))  //si se ingreso un caracter invalido en el valor
 		{
 			ret_value = 0;
 		}
 		else if (!strcmp("largo", key))
 		{
-			if (number > 100)
+			if ((number > 100)||((data_t*)userData)->largo)
 			{
 				ret_value = 0;
 			}
@@ -52,7 +52,7 @@ int recieve_data(char* key, char* value, void* userData) //callback
 		}
 		else if (!strcmp("ancho", key))
 		{
-			if (number > 70)
+			if ((number > 70)|| ((data_t*)userData)->ancho)
 			{
 				ret_value = 0;
 			}
@@ -63,7 +63,7 @@ int recieve_data(char* key, char* value, void* userData) //callback
 		}
 		else if (!strcmp("modo", key))
 		{
-			if ((number != 1) && (number != 2))
+			if (((number != 1) && (number != 2))|| ((data_t*)userData)->modo)
 			{
 				ret_value = 0;
 			}
@@ -74,7 +74,14 @@ int recieve_data(char* key, char* value, void* userData) //callback
 		}
 		else if (!strcmp("robots", key))
 		{
-			((data_t*)userData)->robots = number;
+			if (((data_t*)userData)->robots)
+			{
+				ret_value = 0;
+			}
+			else
+			{
+				((data_t*)userData)->robots = number;
+			}
 		}
 		else //si la clave no existe
 		{
