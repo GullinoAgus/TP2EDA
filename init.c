@@ -131,7 +131,7 @@ void init_floor(piso_t* floor, data_t* userData)
 	floor->h = userData->largo;
 	floor->w = userData->ancho;
 	int n_baldosas = floor->h * floor->w;
-	floor->baldosas = (baldosas_t*)calloc(n_baldosas, sizeof(char));
+	floor->baldosas = (baldosa_t*)calloc(n_baldosas, sizeof(char));
 }
 
 /************************************************************************************
@@ -143,7 +143,7 @@ void init_floor(piso_t* floor, data_t* userData)
 
 robot_t* init_robot(int n_robots, piso_t* floor)
 {
-	robot_t* robot_list = (robot_t*)calloc(n_robots, sizeof(robot_t));
+	robot_t* robot_list= (robot_t*)calloc(n_robots, sizeof(robot_t));
 	int contador;
 	for (contador = 0; contador < n_robots; contador++)
 	{
