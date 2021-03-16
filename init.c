@@ -1,87 +1,151 @@
 #include "init.h"
 
-/*evitar
-int main (void)
-{
 
-	piso_t floor;
-	piso_t * floor_pointer = &floor;
-	int n_robots;
-	int mode = recieve_data (floor_pointer, &(n_robots));
-	init_floor (floor_pointer);
-	robot_t * robot_list = init_robot (n_robots, floor_pointer);
-	printf ("EL MODO: %d \n", mode);
-	printf("ALTURA Y ANCHO: %d , %d \n", floor.h, floor.w);
-	printf("PRUEBA BALDOSA: %d \n", (int)floor.baldosas[0]);
-	printf("PRUEBA ROBOT, x y y angle: %f, %f, %f \n", robot_list[0].x, robot_list[0].y, robot_list[0].angle);
+/*main(int argc, char*argv[]):
+* pCallback_t p = &recieve_data
+* data_t data;
+* data_t * userData = &data;
+* 
+* int var = parseCmdLine(argc, argv, p, userData) --> si esto da bien:
+* init_floor(&floor, userData);
+* robots = init_robot (data.robots, &floor);
+* /
 
-}*/
-/*******************************************************************************
-*	Esta funcion se encarga de recibir parametros por linea de comandos		   *
-*	en tiempo de ejecucion. 												   *
-*	Guarda el numero de robots, el largo y ancho del tablero y devuelve 	   *
-*	el modo del juego. 														   *
-*******************************************************************************/
-int recieve_data (piso_t * floor, int * n_robots)
+
+
+/************************************************************************************
+*	Esta funcion se encarga de acomodar el numero recibido por linea de				*
+*	comandos a un numero (ya que se recibe como char).								*
+*************************************************************************************/
+int set_number(char* value);
+
+/************************************************************************************
+*	Esta funcion es el callback llamado por parseCmdLine. Se encarga de	verificar	*
+*	si las opciones ingresadas son correctas y llena la estructura.					*
+*	En el caso de tener un error devuelve 0, sino devuelve 1.						*
+*************************************************************************************/
+int recieve_data(char* key, char* value, void* userData) //callback 
 {
-	int mode;
-	printf("Ingrese el numero de filas: ");
-	scanf("%d", &(floor->h));
-	while ((floor->h<1)||(floor->h>100))
+	int ret_value = 1;
+	int number;
+	if (key == NULL) //si hay un parametro suelto devuelve error
 	{
-		printf("Este numero no esta permitido.\nIngrese el numero de filas: ");
-		scanf("%d", &(floor->h));
-	}	
-	printf("Ingrese el numero de columnas: ");
-	scanf("%d", &(floor->w));
-	while ((floor->w<1)||(floor->w>70))
-	{
-		printf("Este numero no esta permitido.\nIngrese el numero de columnas: ");
-		scanf("%d", &(floor->w));
+		ret_value = 0;
 	}
-	printf("Ingrese el numero de robots: ");
-	scanf("%d", n_robots);
-	printf("Ingrese el modo de la simulacion: ");
-	scanf("%d", &(mode));	
-	while((mode!=1)&&(mode!=2))
+	else //es opcion
 	{
-		printf("Este numero no esta permitido.\nIngrese el modo de la simulacion: ");
-		scanf("%d", &(mode));
+		number = set_number(value);
+		if (number == -1)  //si se ingreso un caracter invalido en el valor
+		{
+			ret_value = 0;
+		}
+		else if (!strcmp("largo", key))
+		{
+			if (number > 100)
+			{
+				ret_value = 0;
+			}
+			else
+			{
+				((data_t*)userData)->largo = number;
+			}
+		}
+		else if (!strcmp("ancho", key))
+		{
+			if (number > 70)
+			{
+				ret_value = 0;
+			}
+			else
+			{
+				((data_t*)userData)->ancho = number;
+			}
+		}
+		else if (!strcmp("modo", key))
+		{
+			if ((number != 1) && (number != 2))
+			{
+				ret_value = 0;
+			}
+			else
+			{
+				((data_t*)userData)->modo = number;
+			}
+		}
+		else if (!strcmp("robots", key))
+		{
+			((data_t*)userData)->robots = number;
+		}
+		else //si la clave no existe
+		{
+			ret_value = 0;
+		}
 	}
-	return mode;
+	return ret_value;
 }
 
-/*******************************************************************************
-*	Esta funcion se encarga de reservar un lugar en el heap para las baldosas. *
-*	Las inicializa en 0, lo que indica que estan sucias.					   *
-*******************************************************************************/
-
-void init_floor (piso_t * floor)
+/********************************************************************************
+*	Esta funcion se encarga de acomodar el numero recibido por linea de			*
+*	comandos a un numero (ya que se recibe como char). si devuele -1			*
+*	es porque se ingreso un caracter invalido.									*
+*********************************************************************************/
+int set_number(char* value)
 {
-	int n_baldosas = floor->h * floor->w;
-	floor->baldosas = (baldosa_t*) calloc (n_baldosas, sizeof(baldosa_t)); 
-} 	
-
-/*******************************************************************************
-*	Esta funcion se encarga de reservar un lugar en el heap para los robots.   *
-*	Crea la lista e inicializa las coordenadas de los robots en el medio 	   *
-*	de la pantalla. 														   *
-*	Devuelve un puntero al arreglo que contiene a los robots				   *
-*******************************************************************************/
-
-robot_t * init_robot (int n_robots, piso_t * floor)    //en modo 1 manda la variable y en modo 2 seria ir aumentando en 1
-{ 
-	robot_t* robot_list = (robot_t*) calloc (n_robots + 1, sizeof(robot_t));
-	int contador;
-	for (contador=0; contador<n_robots; contador++)
+	int number = 0;
+	int error = 0;
+	int cifra = 0;
+	while ((value[cifra] != 0) && (!error))  //mientras no sea el terminador del string
 	{
-		robot_list[contador].x = (double) (rand()%(floor->w * 10))/10.0;			//esto esta mal (ver como definir lo de las coordenadas)
-		robot_list[contador].y =	(double) (rand() % (floor->h * 10)) / 10.0;  //no se si el double es al pedo o que 
-		robot_list[contador].angle = (double) (rand()%3600)/10.0;					//grados
+		if ((value[cifra] < 48) || (value[cifra] > 57)) //caracter invalido (no es un numero)
+		{
+			error = 1;
+		}
+		else
+		{
+			number *= 10;
+			number += (value[cifra] - 48); //acomodo de char a int
+			cifra++;
+		}
 	}
-	robot_list[n_robots].x = -1;
-	return robot_list; 
-} 
+	if (error)
+	{
+		number = -1;
+	}
+	return number;
+}
+
+/************************************************************************************
+*	Esta funcion se encarga de reservar un lugar en el heap para las baldosas		*
+*	Las inicializa en 0, lo que indica que estan sucias.							*
+*************************************************************************************/
+
+void init_floor(piso_t* floor, data_t* userData)
+{
+	floor->h = userData->largo;
+	floor->w = userData->ancho;
+	int n_baldosas = floor->h * floor->w;
+	floor->baldosas = (baldosas_t*)calloc(n_baldosas, sizeof(char));
+}
+
+/************************************************************************************
+*	Esta funcion se encarga de reservar un lugar en el heap para los robots.		*
+*	Crea la lista e inicializa las coordenadas de los robots en el medio			*
+*	de la pantalla. 																*
+*	Devuelve un puntero al arreglo que contiene a los robots.						*
+*************************************************************************************/
+
+robot_t* init_robot(int n_robots, piso_t* floor)
+{
+	robot_t* robot_list = (robot_t*)calloc(n_robots, sizeof(robot_t));
+	int contador;
+	for (contador = 0; contador < n_robots; contador++)
+	{
+		robot_list[contador].x = (double)(rand() % (floor->w * 10)) / 10.0;
+		robot_list[contador].y = (double)(rand() % (floor->h * 10)) / 10.0;
+		robot_list[contador].angle = (double)(rand() % 3599) / 10;   //grados
+	}
+	return robot_list;
+}
 
 
 

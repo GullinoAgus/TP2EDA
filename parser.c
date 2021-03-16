@@ -6,7 +6,7 @@ int parseCmdLine(int argc, char *argv[], pCallback_t p, void *userData){
 
     int optParamCounter = 0;            //contador de parametros y opciones
 
-    for (int i = 0; i < argc; i++)      //para cada string de argv chequeamos...
+    for (int i = 1; i < argc; i++)      //para cada string de argv chequeamos...
     {
         
         if (*argv[i] == '-')            //Si el primer caracter es un guion tenemos una clave
