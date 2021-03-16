@@ -9,9 +9,6 @@
 #define REPESPARAPROMEDIO 1000
 
 
-typedef struct {
-    int dummy;
-} callbackInfo_t;
 
 int initAllegro5(ALLEGRO_DISPLAY** p2display);
 
