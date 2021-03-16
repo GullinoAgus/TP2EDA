@@ -1,3 +1,20 @@
-﻿  main.c
-C:\Users\agust\source\repos\GullinoAgus\TP2EDA\main.c(23,12): warning C4101: 'difTiempo': unreferenced local variable
-  TP2EDA.vcxproj -> C:\Users\agust\source\repos\GullinoAgus\TP2EDA\Debug\TP2EDA.exe
+﻿  graphics.c
+C:\Users\Admin\source\repos\GullinoAgus\TP2EDA\graphics.c(50,74): warning C4047: 'function': 'int' differs in levels of indirection from 'void *'
+C:\Users\Admin\source\repos\GullinoAgus\TP2EDA\graphics.c(50,70): warning C4024: 'al_load_ttf_font': different types for formal and actual parameter 3
+  init.c
+C:\Users\Admin\source\repos\GullinoAgus\TP2EDA\init.c(29,2): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Admin\source\repos\GullinoAgus\TP2EDA\init.c(33,3): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Admin\source\repos\GullinoAgus\TP2EDA\init.c(36,2): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Admin\source\repos\GullinoAgus\TP2EDA\init.c(40,3): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Admin\source\repos\GullinoAgus\TP2EDA\init.c(43,2): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Admin\source\repos\GullinoAgus\TP2EDA\init.c(45,2): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Admin\source\repos\GullinoAgus\TP2EDA\init.c(49,3): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  limpiador.c
+  main.c
+C:\Users\Admin\source\repos\GullinoAgus\TP2EDA\main.c(23,12): warning C4101: 'difTiempo': unreferenced local variable
+  parser.c
+  SenCosTable.c
+C:\Users\Admin\source\repos\GullinoAgus\TP2EDA\SenCosTable.c(4,181): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\Admin\source\repos\GullinoAgus\TP2EDA\SenCosTable.c(187,163): warning C4305: 'initializing': truncation from 'double' to 'float'
+  Generating Code...
+  TP2EDA.vcxproj -> C:\Users\Admin\source\repos\GullinoAgus\TP2EDA\Debug\TP2EDA.exe
