@@ -8,8 +8,12 @@
 #define FPS 2.0
 #define REPESPARAPROMEDIO 1000
 
-int initAllegro5(ALLEGRO_DISPLAY** p2display);
 
+typedef struct {
+    int dummy;
+} callbackInfo_t;
+
+int initAllegro5(ALLEGRO_DISPLAY** p2display);
 
 int main (void){
     srand(time(NULL));
@@ -34,8 +38,8 @@ int main (void){
 
     //int modo = recieve_data(&piso, &cantRobots);
     int modo = 2;
-    piso.h = 100;
-    piso.w = 70;
+    piso.h = 20;
+    piso.w = 20;
     init_floor(&piso);
     if (modo == 1)
     {
@@ -115,7 +119,7 @@ int main (void){
                 printf("t(n)-t(n-1) = %.2f   n = %d\n", fabs(puntoNuevo->y - puntoAnterior->y), cantRobots-1);
             }while (fabs(puntoNuevo->y - puntoAnterior->y) >=0.1 || puntoAnterior == puntoNuevo);
             calcDone = 1;
-            graficarFuncion(50, 50, listaPuntos, 40);
+            graficarFuncion(50, 50, listaPuntos, 60);
         }
         
     }
