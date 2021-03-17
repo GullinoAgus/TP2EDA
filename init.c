@@ -126,12 +126,23 @@ int set_number(char* value)
 *	Las inicializa en 0, lo que indica que estan sucias.							*
 *************************************************************************************/
 
-void init_floor(piso_t* floor, data_t* userData)
+int init_floor(piso_t* floor, data_t* userData)
 {
+    if (userData->ancho <= 0 || userData->largo <= 0)
+    {
+        return -1;
+    }
+
     floor->h = userData->largo;
     floor->w = userData->ancho;
     int n_baldosas = floor->h * floor->w;
     floor->baldosas = (baldosa_t*)calloc(n_baldosas, sizeof(baldosa_t));
+    if (floor->baldosas == NULL)
+    {
+        return -1;
+    }
+
+    return 0; 
 }
 
 /************************************************************************************
@@ -143,8 +154,16 @@ void init_floor(piso_t* floor, data_t* userData)
 
 robot_t* init_robot(int n_robots, piso_t* floor)
 {
-    robot_t* robot_list = (robot_t*)calloc(n_robots+1, sizeof(robot_t));
+    robot_t* robot_list;
     int contador;
+
+    if (n_robots <= 0 || floor == NULL)
+    {
+        return NULL;
+    }
+
+    robot_list = (robot_t*)calloc(n_robots + 1, sizeof(robot_t));
+
     for (contador = 0; contador < n_robots; contador++)
     {
         robot_list[contador].x = (double)(rand() % (floor->w * 10)) / 10.0;

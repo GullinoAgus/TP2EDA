@@ -30,7 +30,7 @@ int recieve_data(char* key, char* value, void* userData);
 *	Esta funcion se encarga de reservar un lugar en el heap para las baldosas		*
 *	Las inicializa en 0, lo que indica que estan sucias.							*
 *************************************************************************************/
-void init_floor(piso_t* floor, data_t* userData);
+int init_floor(piso_t* floor, data_t* userData);
 
 /************************************************************************************
 *	Esta funcion se encarga de reservar un lugar en el heap para los robots.		*

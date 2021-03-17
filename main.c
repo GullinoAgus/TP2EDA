@@ -14,12 +14,13 @@ int main (int argc, char *argv[]){
     srand(time(NULL));              //Semilla para la funcion rand que se utiliza en init.c y limpiador.c
     
     int exit = 0;                   //Variable de salida para cerrar la ventana
-    piso_t piso;                    
-    robot_t* robots = NULL;         
+    int error = 0;
     int cantRobots = 1;             //Contador para la cantidad de robots en uso. Se utiliza en el modo 2
     int calcDone = false;           
     int contBaldosasLimpias = 0;    
     double tickCount = 0;
+    piso_t piso;
+    robot_t* robots = NULL;
     punto_t* listaPuntos = NULL, *puntoNuevo = NULL, *puntoAnterior = NULL; //Punteros para generar la lista de puntos a graficar en el modo 2
 
 
@@ -41,10 +42,21 @@ int main (int argc, char *argv[]){
                       
     if (data.modo == 1)                             //En caso de que se haya seleccionado el modo 1 
     {
-        init_floor(&piso, &data);                   //Inicializamos el piso y los robots aqui
+        error = init_floor(&piso, &data);                   //Inicializamos el piso y los robots aqui
+        if (error == -1)
+        {
+            printf("No se pudo inicializar el piso");
+            return 0;
+        }
         robots = init_robot(data.robots, &piso);
+        if (robots == NULL)
+        {
+            printf("No se pudieron inicializar los Robots\n");
+            free(piso.baldosas);
+            return 0;
+        }
     }
-    
+
 
     
     if (initAllegro5(&display) == -1) {             //Si falla la inicializacion de los componentes de allegro, liberamos lo reservado si era modo 1
@@ -57,7 +69,7 @@ int main (int argc, char *argv[]){
         return 0;
     }
 
-    font = al_load_ttf_font(".//monofonto.ttf", 15, NULL);
+    font = al_load_ttf_font(".//monofonto.ttf", 15, 0);
     timer = al_create_timer(1 / TPS);                           //Inicializamos el timer que se utiliza para el modo 1
     colaEventos = al_create_event_queue();                      
     if (timer == NULL || colaEventos == NULL || font == NULL)
@@ -76,7 +88,7 @@ int main (int argc, char *argv[]){
     if (data.modo == 1) {           //Si estamos en modo 1 iniciamos el timer
         al_start_timer(timer);
     }
-    while (!exit) {                                 // Loop para GUI
+    while (!exit && !error) {                                 // Loop para GUI
 
         
 
@@ -113,9 +125,23 @@ int main (int argc, char *argv[]){
             tickCount = 0;                              
             for (int i = 0; i < REPESPARAPROMEDIO; i++)     //Corremos las repeticiones
             {
-                init_floor(&piso, &data);                   //inicializamos el piso y los robots para generar una nueva distribucion en cada repeticion
                 contBaldosasLimpias = 0;
-                robots = init_robot(cantRobots, &piso);
+                init_floor(&piso, &data);                   //inicializamos el piso y los robots para generar una nueva distribucion en cada repeticion
+                error = init_floor(&piso, &data);                   //Inicializamos el piso y los robots aqui
+                if (error == -1)
+                {
+                    printf("Abortando, piso todo roto");
+                    error = 1;
+                    break;
+                }
+                robots = init_robot(data.robots, &piso);
+                if (robots == NULL)
+                {
+                    free(piso.baldosas);
+                    printf("Abortando, se quemaron los robots\n");
+                    error = 1;
+                    break;
+                }
                 while (piso.h * piso.w != contBaldosasLimpias)  //Corremos la simulacion y contamos los ticks hasta que es piso este limpio
                 {
                     contBaldosasLimpias += fisicas(&piso, robots);

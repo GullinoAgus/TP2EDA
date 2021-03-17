@@ -72,12 +72,12 @@ void graficarPiso(int posx, int posy, piso_t *piso, robot_t *listaRobots, double
         for (int j = 0; j < piso->w; ++j) {
             if (piso->baldosas[i * piso->w + j]){               //Si esta limpia( = 1 ) la dibujamos de azul
 
-                al_draw_filled_rectangle(posx +  j*escala, posy + (piso->h-1)*escala - i*escala, posx + escala +  j*escala, posy + escala + (piso->h-1)*escala - i*escala, al_map_rgb(100,150,255));
+                al_draw_filled_rectangle(posx +  j*escala, posy + ((double)piso->h-1)*escala - i*escala, posx + escala +  j*escala, posy + escala + ((double)piso->h-1)*escala - i*escala, al_map_rgb(100,150,255));
 
             }
             else{                                               //Si esta sucia( = 0 ) la dibujamos gris
 
-                al_draw_filled_rectangle(posx +  j*escala, posy + (piso->h-1)*escala - i*escala, posx + escala + j*escala, posy + escala + (piso->h-1)*escala - i*escala, al_map_rgb(150,150,150));
+                al_draw_filled_rectangle(posx +  j*escala, posy + ((double)piso->h-1)*escala - i*escala, posx + escala + j*escala, posy + escala + ((double)piso->h-1)*escala - i*escala, al_map_rgb(150,150,150));
 
             }
         }
@@ -94,7 +94,7 @@ void graficarPiso(int posx, int posy, piso_t *piso, robot_t *listaRobots, double
 void graficarFuncion(int posx, int posy, punto_t *listaPuntos, double escala){
 
     ALLEGRO_TRANSFORM t;                        //Transformacion para girar el texto
-    ALLEGRO_FONT* font = al_load_ttf_font(FONTDIRECTORY, escala / 4, NULL);     //Carga de la fuente para el grafico
+    ALLEGRO_FONT* font = al_load_ttf_font(FONTDIRECTORY, escala / 4, 0);     //Carga de la fuente para el grafico
     double maxXvalue = getMaxX(listaPuntos);            //obtenemos el valor maximo en X
     double maxYvalue = getMaxY(listaPuntos);            //Obtenemos el valor maximo en Y
 
@@ -107,8 +107,8 @@ void graficarFuncion(int posx, int posy, punto_t *listaPuntos, double escala){
     posx += 1.05 * escala;                              //Ajuste de posicion para acumodar por el texto en los ejes
     posy += escala;
 
-    al_draw_line(posx, posy - escala, posx, posy + escala* (DIVISIONESDEGRAFICO + 1), al_map_rgb(0, 0, 0), escala / 40);          //dibujo el Eje Y
-    al_draw_line(posx - escala, posy + escala*DIVISIONESDEGRAFICO, posx + escala*(DIVISIONESDEGRAFICO+1), posy + escala*DIVISIONESDEGRAFICO, al_map_rgb(0, 0, 0), escala / 40);   //dibujo el eje x
+    al_draw_line(posx, posy - escala, posx, posy + escala* ((double)DIVISIONESDEGRAFICO + 1), al_map_rgb(0, 0, 0), escala / 40);          //dibujo el Eje Y
+    al_draw_line(posx - escala, posy + escala*DIVISIONESDEGRAFICO, posx + escala*((double)DIVISIONESDEGRAFICO+1), posy + escala * (double)DIVISIONESDEGRAFICO, al_map_rgb(0, 0, 0), escala / 40);   //dibujo el eje x
     
     //Dibujo una cuadricula para seguir mejor el grafico
     graficarCuadricula(posx, posy, DIVISIONESDEGRAFICO, DIVISIONESDEGRAFICO, escala, escala);
@@ -119,7 +119,7 @@ void graficarFuncion(int posx, int posy, punto_t *listaPuntos, double escala){
 
     for (int i = 1; i <= DIVISIONESDEGRAFICO; i++)      //Escribo el eje Y con los valores de cada division
     {
-        al_draw_textf(font, al_map_rgb(0, 0, 0), posx, posy + (DIVISIONESDEGRAFICO - i) * escala - al_get_font_line_height(font) / 2, ALLEGRO_ALIGN_RIGHT, "%.2E", (maxYvalue / (double)DIVISIONESDEGRAFICO) * i);
+        al_draw_textf(font, al_map_rgb(0, 0, 0), posx, posy + ((double)DIVISIONESDEGRAFICO - i) * escala - al_get_font_line_height(font) / 2, ALLEGRO_ALIGN_RIGHT, "%.2E", (maxYvalue / (double)DIVISIONESDEGRAFICO) * (double)i);
     }
     
     al_identity_transform(&t);              //Aplico una transformacion sobre el sistema de coordenadas que lo gira 90 grados y lo posiciona para escribir el texto en el eje X
@@ -128,7 +128,7 @@ void graficarFuncion(int posx, int posy, punto_t *listaPuntos, double escala){
     al_use_transform(&t);
     for (int i = 1; i <= DIVISIONESDEGRAFICO; i++)      //Escribo el eje X con los valores de cada division
     {
-        al_draw_textf(font, al_map_rgb(0, 0, 0), 0, (DIVISIONESDEGRAFICO - i) * escala, ALLEGRO_ALIGN_LEFT, "%.2E", (maxXvalue/(double)DIVISIONESDEGRAFICO)*i);
+        al_draw_textf(font, al_map_rgb(0, 0, 0), 0, ((double)DIVISIONESDEGRAFICO - i) * escala, ALLEGRO_ALIGN_LEFT, "%.2E", (maxXvalue/(double)DIVISIONESDEGRAFICO)*i);
     }
     al_identity_transform(&t);                          //Devuelvo el sistema de coordenadas a la normalidad con la transformacion identidad
     al_use_transform(&t);
