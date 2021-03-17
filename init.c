@@ -26,69 +26,69 @@ int set_number(char* value);
 *************************************************************************************/
 int recieve_data(char* key, char* value, void* userData) //callback 
 {
-	int ret_value = 1;
-	int number;
-	if (key == NULL) //si hay un parametro suelto devuelve error
-	{
-		ret_value = 0;
-	}
-	else //es opcion
-	{
-		number = set_number(value);
-		if ((number == -1)||(number==0))  //si se ingreso un caracter invalido en el valor
-		{
-			ret_value = 0;
-		}
-		else if (!strcmp("largo", key))
-		{
-			if ((number > 100)||((data_t*)userData)->largo)
-			{
-				ret_value = 0;
-			}
-			else
-			{
-				((data_t*)userData)->largo = number;
-			}
-		}
-		else if (!strcmp("ancho", key))
-		{
-			if ((number > 70)|| ((data_t*)userData)->ancho)
-			{
-				ret_value = 0;
-			}
-			else
-			{
-				((data_t*)userData)->ancho = number;
-			}
-		}
-		else if (!strcmp("modo", key))
-		{
-			if (((number != 1) && (number != 2))|| ((data_t*)userData)->modo)
-			{
-				ret_value = 0;
-			}
-			else
-			{
-				((data_t*)userData)->modo = number;
-			}
-		}
-		else if (!strcmp("robots", key))
-		{
-			if (((data_t*)userData)->robots)
-			{
-				ret_value = 0;
-			}
-			else
-			{
-				((data_t*)userData)->robots = number;
-			}
-		}
-		else //si la clave no existe
-		{
-			ret_value = 0;
-		}
-	}
-	return ret_value;
+    int ret_value = 1;
+    int number;
+    if (key == NULL) //si hay un parametro suelto devuelve error
+    {
+        ret_value = 0;
+    }
+    else //es opcion
+    {
+        number = set_number(value);
+        if ((number == -1)||(number==0))  //si se ingreso un valor invalido
+        {
+            ret_value = 0;
+        }
+        else if (!strcmp("largo", key))
+        {
+            if ((number > 70)||((data_t*)userData)->largo)      //si el valor recibido esta en el rango correcto continuamos
+            {
+                ret_value = 0;
+            }
+            else
+            {
+                ((data_t*)userData)->largo = number;
+            }
+        }
+        else if (!strcmp("ancho", key))
+        {
+            if ((number > 100) || ((data_t*)userData)->ancho)   //si el valor recibido esta en el rango correcto continuamos
+            {
+                ret_value = 0;
+            }
+            else
+            {
+                ((data_t*)userData)->ancho = number;
+            }
+        }
+        else if (!strcmp("modo", key))
+        {
+            if (((number != 1) && (number != 2))|| ((data_t*)userData)->modo)   //si el valor recibido esta en el rango correcto continuamos
+            {
+                ret_value = 0;
+            }
+            else
+            {
+                ((data_t*)userData)->modo = number;
+            }
+        }
+        else if (!strcmp("robots", key))
+        {
+            if (((data_t*)userData)->robots)
+            {
+                ret_value = 0;
+            }
+            else
+            {
+                ((data_t*)userData)->robots = number;
+            }
+        }
+        else //si la clave no existe
+        {
+            ret_value = 0;
+        }
+    }
+    return ret_value;
 }
 
 /********************************************************************************
@@ -98,27 +98,27 @@ int recieve_data(char* key, char* value, void* userData) //callback
 *********************************************************************************/
 int set_number(char* value)
 {
-	int number = 0;
-	int error = 0;
-	int cifra = 0;
-	while ((value[cifra] != 0) && (!error))  //mientras no sea el terminador del string
-	{
-		if ((value[cifra] < 48) || (value[cifra] > 57)) //caracter invalido (no es un numero)
-		{
-			error = 1;
-		}
-		else
-		{
-			number *= 10;
-			number += (value[cifra] - 48); //acomodo de char a int
-			cifra++;
-		}
-	}
-	if (error)
-	{
-		number = -1;
-	}
-	return number;
+    int number = 0;
+    int error = 0;
+    int cifra = 0;
+    while ((value[cifra] != 0) && (!error))  //mientras no sea el terminador del string
+    {
+        if ((value[cifra] < 48) || (value[cifra] > 57)) //caracter invalido (no es un numero)
+        {
+            error = 1;
+        }
+        else
+        {
+            number *= 10;
+            number += (value[cifra] - 48); //acomodo de char a int
+            cifra++;
+        }
+    }
+    if (error)
+    {
+        number = -1;
+    }
+    return number;
 }
 
 /************************************************************************************
@@ -128,10 +128,10 @@ int set_number(char* value)
 
 void init_floor(piso_t* floor, data_t* userData)
 {
-	floor->h = userData->largo;
-	floor->w = userData->ancho;
-	int n_baldosas = floor->h * floor->w;
-	floor->baldosas = (baldosa_t*)calloc(n_baldosas, sizeof(char));
+    floor->h = userData->largo;
+    floor->w = userData->ancho;
+    int n_baldosas = floor->h * floor->w;
+    floor->baldosas = (baldosa_t*)calloc(n_baldosas, sizeof(baldosa_t));
 }
 
 /************************************************************************************
@@ -143,15 +143,18 @@ void init_floor(piso_t* floor, data_t* userData)
 
 robot_t* init_robot(int n_robots, piso_t* floor)
 {
-	robot_t* robot_list= (robot_t*)calloc(n_robots, sizeof(robot_t));
-	int contador;
-	for (contador = 0; contador < n_robots; contador++)
-	{
-		robot_list[contador].x = (double)(rand() % (floor->w * 10)) / 10.0;
-		robot_list[contador].y = (double)(rand() % (floor->h * 10)) / 10.0;
-		robot_list[contador].angle = (double)(rand() % 3599) / 10;   //grados
-	}
-	return robot_list;
+    robot_t* robot_list = (robot_t*)calloc(n_robots+1, sizeof(robot_t));
+    int contador;
+    for (contador = 0; contador < n_robots; contador++)
+    {
+        robot_list[contador].x = (double)(rand() % (floor->w * 10)) / 10.0;
+        robot_list[contador].y = (double)(rand() % (floor->h * 10)) / 10.0;
+        robot_list[contador].angle = (double)(rand() % 3599) / 10;   //grados
+    }
+
+    robot_list[n_robots].x = -1;
+
+    return robot_list;
 }
 
 
