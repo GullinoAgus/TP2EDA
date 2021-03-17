@@ -32,9 +32,12 @@ typedef struct
 } piso_t;
 
 //Prototipos
-
-/*Se encarga del movimiento de los robots, cambiar la direccion de ellos en caso.
-de colision, y limpia las baldosas */
-int fisicas(piso_t *piso, robot_t *r);
+/*Funcion fisicas: Se encarga del movimiento de los robots, cambiar la direccion de ellos en caso.
+de colision, y limpia las baldosas
+    Parametro piso: puntero a estructura piso_t ya inicializada
+    Parametro r: Arreglo con los n robots, donde el n+1 tenga coordenada en x = -1 para usar como fin de lista
+    Deveulve: Cantidad de baldosas limpiadas en dicho llamado a esta funcion
+    */
+int fisicas(piso_t *piso, robot_t *r);     
 
 #endif
